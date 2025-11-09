@@ -211,9 +211,9 @@ const Work = () => {
 
             setupi(
               `💰 <strong>Detected UPI Payment QR</strong><br /><br />
-   👤 <strong>Name:</strong> ${name || "N/A"}<br />
-   💳 <strong>UPI ID:</strong> ${upiID || "N/A"}<br />
-   🆔 <strong>AID:</strong> ${aid || "N/A"}
+    <strong>Name:</strong> ${name || "N/A"}<br />
+    <strong>UPI ID:</strong> ${upiID || "N/A"}<br />
+  
        ` );
           } catch (err) {
             setupi(`⚠️ Error parsing UPI link:\n${err.message}`);
@@ -266,78 +266,85 @@ const Work = () => {
         </motion.div>
       )}
 
-      <div className="flex h-[80vh] max-h-[650px] justify-between  border-r">
+      <div className="flex h-[80vh] max-h-[650px] justify-between  ">
         {/* Upload Section */}
-        <div className='w-[50%] border-x pl-4 '>
-           <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          className="bg-white p-8 rounded-xl   shadow-lg w-[75%]"
-        >
-          <div className='flex justify-between items-center'>
-            <h2 className="text-3xl font-bold mb-6 text-gray-800 flex items-center">
-              <FiUpload className="mr-2" />
-              Upload Image
-            </h2>
-            <select value={mode} onChange={(e) => setmode(e.target.value)} name="" id="" className='text-black border rounded p-2 mb-4'>
+        <div className='w-[50%] border-r pl-4 '>
+       <motion.div
+  initial={{ opacity: 0, x: -20 }}
+  animate={{ opacity: 1, x: 0 }}
+  className="bg-white p-8 rounded-xl shadow-lg w-[75%]"
+>
+  <div className="flex justify-between items-center">
+    <h2 className="text-3xl font-bold mb-6 text-gray-800 flex items-center">
+      <FiUpload className="mr-2" />
+      Upload Image
+    </h2>
+    <select
+      value={mode}
+      onChange={(e) => setmode(e.target.value)}
+      name=""
+      id=""
+      className="text-black border rounded p-2 mb-4"
+    >
+      <option value="photo">Normal</option>
+      <option value="qrcode">Qr code</option>
+    </select>
+  </div>
 
-              <option value="photo">Normal</option>
-              <option value="qrcode">Qr code</option>
+  <div className="space-y-6">
+    <div
+      className={`border-3 border-dashed rounded-xl h-45 flex items-center justify-center p-8 transition-all duration-300 ${
+        previewUrl ? "border-blue-500" : "border-gray-300"
+      } hover:border-blue-400 cursor-pointer`}
+      onClick={() => document.querySelector('input[type="file"]').click()}
+    >
+      <input
+        type="file"
+        accept="image/*"
+        onChange={handleImageChange}
+        className="hidden"
+      />
+      {previewUrl ? (
+        <motion.img
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 0.9 }}
+          transition={{ duration: 0.35 }}
+          src={previewUrl}
+          alt="Preview"
+          className="max-h-40 mx-auto rounded-lg shadow-md object-contain transition-all duration-300 hover:scale-95"
+        />
+      ) : (
+        <div className="text-center text-gray-500">
+          <FiUpload className="mx-auto text-4xl mb-2" />
+          <p>Click or drag image here to upload</p>
+        </div>
+      )}
+    </div>
 
-            </select>
-          </div>
+    <motion.button
+      whileHover={{ scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
+      onClick={handleUpload}
+      disabled={!selectedImage || loading}
+      className={`w-full py-3 px-6 rounded-lg font-semibold shadow-md transition-all duration-300 ${
+        !selectedImage || loading
+          ? "bg-gray-300 cursor-not-allowed"
+          : "bg-blue-500 hover:bg-blue-600 text-white"
+      }`}
+    >
+      {loading ? (
+        <div className="flex items-center justify-center">
+          <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2" />
+          Processing...
+        </div>
+      ) : (
+        "Upload Image"
+      )}
+    </motion.button>
+  </div>
+</motion.div>
 
-          <div className="space-y-6">
-            <div
-              className={`border-3 border-dashed rounded-xl h-30 flex items-center justify-center p-8 transition-all duration-300 ${previewUrl ? 'border-blue-500' : 'border-gray-300'
-                } hover:border-blue-400 cursor-pointer`}
-              onClick={() => document.querySelector('input[type="file"]').click()}
-            >
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleImageChange}
-                className="hidden"
-              />
-              {previewUrl ? (
-                <motion.img
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  src={previewUrl}
-                  alt="Preview"
-                  className="max-h-64 mx-auto rounded-lg shadow-md"
-                />
-              ) : (
-                <div className="text-center text-gray-500">
-                  <FiUpload className="mx-auto text-4xl mb-2" />
-                  <p>Click or drag image here to upload</p>
-
-                </div>
-              )}
-            </div>
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              onClick={handleUpload}
-
-              disabled={!selectedImage || loading}
-              className={`w-full py-3 px-6 rounded-lg font-semibold shadow-md transition-all duration-300 ${!selectedImage || loading
-                ? 'bg-gray-300 cursor-not-allowed'
-                : 'bg-blue-500 hover:bg-blue-600 text-white'
-                }`}
-            >
-              {loading ? (
-                <div className="flex items-center justify-center">
-                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2" />
-                  Processing...
-                </div>
-              ) : (
-                'Upload Image'
-              )}
-            </motion.button>
-          </div>
-        </motion.div>
-         <div className="w-[461px] rounded-2xl p-8 bg-slate-700 mt-3  border text-white">
+         <div className="w-[461px] rounded-2xl p-6 bg-slate-700 mt-3  border text-white">
   {text ? (
     <div className="text-white">
       <h3 className="text-lg font-semibold mb-3">Extracted Text:</h3>

@@ -4,9 +4,20 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import Navbar from "./components/Navbar.jsx"
 import Work from "./pages/Work.jsx";
+import Threads from "./components/Threads.jsx";
+import Aurora from "./components/Aurora.jsx"
 export default function App() {
   return (
-        <div className="h-screen w-full">
+        <div className="relative h-screen w-full overflow-hidden">
+             <div className="absolute inset-0 -z-10">
+        <Aurora
+          colorStops={["#3A29FF", "#FF94B4", "#FF3232"]}
+          blend={0.5}
+          amplitude={1.0}
+          speed={0.5}
+        />
+      </div>
+
        <Navbar/>
       <Routes>
         <Route path="/" element={<Navigate to="/login" />} />
