@@ -9,7 +9,10 @@ html,body{
   height: 100%;
   width: 100%;
 }
-
+.pdf-safe, .pdf-safe * {
+  background: #ffffff !important;
+  color: #000000 !important;
+}
 .custom-scrollbar::-webkit-scrollbar {
   width: 6px;
 }

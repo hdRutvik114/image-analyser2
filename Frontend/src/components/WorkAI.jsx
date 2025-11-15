@@ -1,6 +1,7 @@
 import React, { useEffect, useState,useRef } from 'react';
 import ReactMarkdown from "react-markdown";
 import html2pdf from "html2pdf.js";
+import MyPDF from './MyPDF.jsx';
 const WorkAI = ({ deepseek, qrcode, analysed }) => {
   const [caption, setcaption] = useState("")
   const [object, setobject] = useState("")
@@ -13,42 +14,18 @@ const WorkAI = ({ deepseek, qrcode, analysed }) => {
 
   // setdeep(deepseek);
 
+const contentRef = useRef(null);
 
   useEffect(() => {
     if (deepseek) setdeep(deepseek)
   }, [deepseek]);
 
-  const contentRef = useRef();
+// Remove unsupported OKLCH colors BEFORE generating PDF
 const handlePDF = () => {
-  const element = contentRef.current;
-
-  // 💡 temporarily override background + text color (fix for oklch crash)
-  const oldBg = element.style.backgroundColor;
-  const oldColor = element.style.color;
-
-  element.style.backgroundColor = "#ffffff"; // set white bg
-  element.style.color = "#000000"; // black text
-
-  const opt = {
-    margin: 0.5,
-    filename: "analysis.pdf",
-    image: { type: "jpeg", quality: 0.98 },
-    html2canvas: { scale: 2 },
-    jsPDF: { unit: "in", format: "a4", orientation: "portrait" },
-  };
-
-  html2pdf()
-    .set(opt)
-    .from(element)
-    .save()
-    .then(() => {
-      // 🧼 restore original colors after export
-      element.style.backgroundColor = oldBg;
-      element.style.color = oldColor;
-    })
-    .catch((err) => console.error("PDF export error:", err));
+  if (deep && deep.trim() !== "") {
+    MyPDF({ markdown: deep });
+  }
 };
-
   console.log("heere is analysed:" + analysed);
   return (
     <div className=' w-[100%]  px-4 py-8 p-3 rounded-2xl' >
@@ -78,20 +55,29 @@ const handlePDF = () => {
               </div>
 
               {/* Exportable content */}
-             <div className='px-3 my-3 text-white'>
-  <article className="prose prose-invert max-w-none">
+             <div ref={contentRef} className="pdf-safe p-4 px-3 my-3">
+  <article className="prose max-w-none">
     <ReactMarkdown>{deep ? deep : "No Analysis"}</ReactMarkdown>
   </article>
 </div>
 
+             {/* <div className='px-3 my-3 text-white'>
+</div> */}
+
               {/* Download button */}
               <div className='text-center mt-4'>
-                <button
-                  onClick={handlePDF}
-                  className='bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded-lg'
-                >
-                  📄 Download PDF
-                </button>
+               <button
+  onClick={handlePDF}
+  disabled={!deep || deep.trim() === ""}
+  className={`px-4 py-2 rounded-lg font-semibold
+    ${(!deep || deep.trim() === "") 
+      ? "bg-gray-400 cursor-not-allowed" 
+      : "bg-blue-500 hover:bg-blue-600 text-white"}
+  `}
+>
+  📄 Download PDF
+</button>
+
               </div>
             </>
 
