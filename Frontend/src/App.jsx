@@ -6,6 +6,7 @@ import Navbar from "./components/Navbar.jsx"
 import Work from "./pages/Work.jsx";
 import Threads from "./components/Threads.jsx";
 import Aurora from "./components/Aurora.jsx"
+import About from "./pages/About.jsx";
 export default function App() {
   return (
         <div className="relative h-screen w-full overflow-hidden">
@@ -24,6 +25,7 @@ export default function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/Work" element={<Work />} />
+        <Route   path="/About" element={<About/>} />
         <Route path="*" element={<h1 className="text-center mt-20">Page Not Found</h1>} />
       </Routes>
 

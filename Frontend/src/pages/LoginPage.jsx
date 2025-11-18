@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Homei from "./Home.jsx";
+import Work from "./Work.jsx";
+import toast from "react-hot-toast";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -9,13 +11,38 @@ export default function LoginPage() {
  const [islogedin, setislogedin] = useState(false)
   const handleSubmit = async (e) => {
     e.preventDefault();
+    try{
+const response = await fetch("http://localhost:5000/api/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
+    console.log(response.data)
+    console.log(islogedin)
+    const data = await response.json();
+    
+   if(!data.ok){
+    toast.error("Invalid credentials")
+    return
+   }
+   toast.success("Loggined")
+  setislogedin(true)
+    }catch(err){
+     console.log(err)
+    }
     const response = await fetch("http://localhost:5000/api/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
     });
+    console.log(response.data)
+    console.log(islogedin)
     const data = await response.json();
-    setislogedin(data)
+    setislogedin(data.ok)
+    if(data.ok==false){
+      toast.error("Something went wrong!");
+
+    }
     console.log(data);
   };
 
@@ -23,7 +50,7 @@ export default function LoginPage() {
   return (
     <div className="min-h-[calc(100vh-78px)] flex flex-col bg-gradient-to-br   overflow-y-auto">
   {islogedin ? (
-    <Homei />
+    <Work/>
   ) : (
     <div className="flex flex-1 flex-col md:flex-row p-6 md:p-10 items-center justify-center gap-10">
       {/* Left Side - Image */}

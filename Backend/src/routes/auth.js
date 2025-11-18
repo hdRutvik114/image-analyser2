@@ -40,7 +40,20 @@ router.post("/login", async (req, res) => {
     if (!isMatch) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
+    // ⭐ Create JWT
+  const token = jwt.sign(
+    { id: user._id, email: user.email },
+    process.env.JWT_SECRET,
+    { expiresIn: "1d" }
+  );
 
+     // ⭐ Set HttpOnly cookie
+  res.cookie("token", token, {
+    httpOnly: true,
+    secure: true, // true in production
+    sameSite: "lax"
+  });
+     
     res.status(200).json({ message: "Login successful", user: email });
   } catch (error) {
     res.status(500).json({ message: "Server error" });

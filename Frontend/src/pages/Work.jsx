@@ -268,14 +268,14 @@ const Work = () => {
 
       <div className="flex h-[80vh] max-h-[650px] justify-between  ">
         {/* Upload Section */}
-        <div className='w-[50%] border-r pl-4 '>
+        <div className='w-[45%] border-r pl-4 text-white'>
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="bg-white p-8 rounded-xl shadow-lg w-[75%]"
+            className="bg-slate-600 p-8 rounded-xl shadow-lg w-[75%]"
           >
             <div className="flex justify-between items-center">
-              <h2 className="text-3xl font-bold mb-6 text-gray-800 flex items-center">
+              <h2 className="text-3xl font-bold mb-6  flex items-center">
                 <FiUpload className="mr-2" />
                 Upload Image
               </h2>
@@ -284,10 +284,10 @@ const Work = () => {
                 onChange={(e) => setmode(e.target.value)}
                 name=""
                 id=""
-                className="text-black border rounded p-2 mb-4"
+                className="text-white border rounded p-2 mb-4"
               >
-                <option value="photo">Normal</option>
-                <option value="qrcode">Qr code</option>
+                <option className='bg-slate-600 border' value="photo">Normal</option>
+                <option className='bg-slate-600 border' value="qrcode">Qr code</option>
               </select>
             </div>
 
@@ -313,7 +313,7 @@ const Work = () => {
                     className="max-h-40 mx-auto rounded-lg shadow-md object-contain transition-all duration-300 hover:scale-95"
                   />
                 ) : (
-                  <div className="text-center text-gray-500">
+                  <div className="text-center ">
                     <FiUpload className="mx-auto text-4xl mb-2" />
                     <p>Click or drag image here to upload</p>
                   </div>
@@ -336,7 +336,7 @@ const Work = () => {
                     Processing...
                   </div>
                 ) : (
-                  "Upload Image"
+            <p className='text-blue-500'>Upload Image</p> 
                 )}
               </motion.button>
             </div>
@@ -345,13 +345,7 @@ const Work = () => {
           <div className="w-[461px] rounded-2xl p-6 bg-slate-700 mt-3  border text-white">
             {text ? (
               <div className="text-white">
-                <h3 className="text-lg font-semibold mb-3">Extracted Text:</h3>
-                <textarea
-                  value={text}
-                  readOnly
-                  className="w-full h-30 bg-slate-800 text-white p-3 rounded-lg resize-none overflow-y-auto focus:outline-none border border-slate-600"
-                />
-                <button
+                  <button
                   onClick={() => {
                     navigator.clipboard.writeText(text);
                     alert("Text copied to clipboard!");
@@ -360,6 +354,13 @@ const Work = () => {
                 >
                   Copy Text
                 </button>
+                <h3 className="text-lg font-semibold mb-3">Extracted Text:</h3>
+                <textarea
+                  value={text}
+                  readOnly
+                  className="w-full h-30 bg-slate-800 text-white p-3 rounded-lg resize-none overflow-y-auto focus:outline-none border border-slate-600"
+                />
+              
               </div>
             ) : (
               <p className="text-gray-300 text-center">No text available.</p>
@@ -368,7 +369,8 @@ const Work = () => {
 
 
         </div>
-        <div className='w-[50%] max-h-[500px]'>     <WorkAI deepseek={deep} qrcode={mode} analysed={upi} />
+        <div className='w-[55%] max-h-[500px] flex justify-end'>    
+           <WorkAI deepseek={deep} qrcode={mode} analysed={upi} />
         </div>
 
 
