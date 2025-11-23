@@ -5,6 +5,7 @@ import { FiUpload, FiClock, FiCheck, FiX } from 'react-icons/fi';
 import WorkAI from '../components/WorkAI.jsx';
 import ReactMarkdown from "react-markdown";
 import jsQR from "jsQR";
+import toast from 'react-hot-toast';
 const Work = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
@@ -348,9 +349,9 @@ const Work = () => {
                   <button
                   onClick={() => {
                     navigator.clipboard.writeText(text);
-                    alert("Text copied to clipboard!");
+                    toast.success("copied to clipboard");
                   }}
-                  className="mt-4 py-2 px-4 bg-green-600 hover:bg-green-700 transition-all rounded-lg font-semibold text-white"
+                  className=" py-1 px-4 bg-green-600 hover:bg-green-700 transition-all rounded-lg font-semibold text-white"
                 >
                   Copy Text
                 </button>
